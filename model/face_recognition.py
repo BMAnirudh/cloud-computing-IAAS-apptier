@@ -12,11 +12,12 @@ from torch.utils.data import DataLoader
 
 mtcnn = MTCNN(image_size=240, margin=0, min_face_size=20) # initializing mtcnn for face detection
 resnet = InceptionResnetV1(pretrained='vggface2').eval() # initializing resnet for face img to embeding conversion
-test_image = sys.argv[1]
+#test_image = sys.argv[1]
 
 def face_match(img_path, data_path): # img_path= location of photo, data_path= location of data.pt
     # getting embedding matrix of the given img
-    img = Image.open(img_path)
+    #img = Image.open(img_path)
+    img = img_path
     face, prob = mtcnn(img, return_prob=True) # returns cropped face and probability
     emb = resnet(face.unsqueeze(0)).detach() # detech is to make required gradient false
 
@@ -32,5 +33,5 @@ def face_match(img_path, data_path): # img_path= location of photo, data_path= l
     idx_min = dist_list.index(min(dist_list))
     return (name_list[idx_min], min(dist_list))
 
-result = face_match(test_image, 'data.pt')
-print(result[0])
+# result = face_match(test_image, 'data.pt')
+# print(result[0])
